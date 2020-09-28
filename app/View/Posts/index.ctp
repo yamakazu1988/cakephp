@@ -2,7 +2,6 @@
 
 <h1>Blog posts</h1>
 <p><?php echo $this->Html->link('Add Post', array('controller' => 'posts', 'action' => 'add')); ?></p>
-<p><?php echo $this->Html->link('logout', array('controller' => 'users', 'action' => 'logout')); ?></p>
 <table>
 <tr>
 <th>Id</th>
@@ -30,3 +29,4 @@
 </tr>
 <?php endforeach; ?>
 </table>
+<p><?php echo $this->Html->link('logout', array('controller' => 'users', 'action' => 'logout')); ?></p>
