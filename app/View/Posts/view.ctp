@@ -1,7 +1,8 @@
 <!-- File: /app/View/Posts/view.ctp -->
+<h1>username</h1>
+<p><?php echo h($post['User']['username']); ?></p>
+<h1>title</h1>
+<p><?php echo h($post['Post']['title']); ?></p>
 
-<h1><?php echo h($post['Post']['title']); ?></h1>
-
-<p><small>Created: <?php echo $post['Post']['created_at']; ?></small></p>
-
+<h1>message</h1>
 <p><?php echo h($post['Post']['message']); ?></p>

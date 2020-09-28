@@ -2,9 +2,11 @@
 
 <h1>Blog posts</h1>
 <p><?php echo $this->Html->link('Add Post', array('controller' => 'posts', 'action' => 'add')); ?></p>
+<p><?php echo $this->Html->link('logout', array('controller' => 'users', 'action' => 'logout')); ?></p>
 <table>
 <tr>
 <th>Id</th>
+<th>username</th>
 <th>Title</th>
 <th>Action</th>
 <th>Created</th>
@@ -15,6 +17,7 @@
 <?php foreach ($posts as $post): ?>
 <tr>
 <td><?php echo $post['Post']['id']; ?></td>
+<td><?php echo $post['User']['username']; ?></td>
 <td>
 <?php echo $this->Html->link($post['Post']['title'],array('controller' => 'posts', 'action' => 'view', $post['Post']['id'])); ?>
 </td>

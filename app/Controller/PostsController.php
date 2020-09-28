@@ -1,10 +1,11 @@
 <?php
 class PostsController extends AppController {
 	public $helpers = array('Html', 'Form');
-	public $components = array('Flash');
+	public $components = array('Flash', 'Session');
 
 	public function index() {
 		$this->set('posts', $this->Post->find('all'));
+		$this->set('users', $this->Post->User->find('list',array('fields' => array('User.username'))));
 	}
 
 	public function view($id = null) {
@@ -20,13 +21,13 @@ class PostsController extends AppController {
 	}
 
 	public function add() {
+		$username = $this->Session->read('Auth.User.username');
 		if ($this->request->is('post')) {
-			$this->Post->create();
+			$this->request->data['Post']['user_id'] = $this->Auth->user('id');
 			if ($this->Post->save($this->request->data)) {
-				$this->Flash->success(__('Your post has been saved.'));
+				$this->Flash->success(__('Your post has been saved'));
 				return $this->redirect(array('action' => 'index'));
 			}
-			$this->Flash->error(__('Unable to add your post'));
 		}
 	}
 
@@ -61,6 +62,19 @@ class PostsController extends AppController {
 			$this->Flash->error(__('The post with id: %s could not be deleted.', h($id)));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function isAuthorized($user) {
+		if ($this->action === 'add') {
+			return true;
+		}
+		if (in_array($this->action, array('edit', 'delete'))) {
+			$postId = (int) $this->request->params['pass'][0];
+			if ($this->Post->isOwnedBy($postId, $user['id'])) {
+				return true;
+			}
+		}
+		return parent::isAuthorized($user);
 	}
 }
 ?>
