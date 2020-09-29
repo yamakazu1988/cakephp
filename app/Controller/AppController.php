@@ -57,6 +57,7 @@ class AppController extends Controller {
 		$this->Auth->allow('index', 'view');
 	}
 	public function isAuthorized($user) {
-		return $this->redirect(array('action' => 'index'));
+		//return $this->redirect(array('action' => 'index'));
+		return false;
 	}
 }

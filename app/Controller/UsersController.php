@@ -13,19 +13,23 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'Session');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('add', 'logout');
 	}
 	public function login() {
-		if ($this->request->is('post')) {
-			if ($this->Auth->login()) {
-				$this->redirect($this->Auth->redirect());
-			} else {
-				$this->Flash->error(__('Invalid email or password, try again'));
+		if (!$this->Session->read('Auth.User.id')) {
+			if ($this->request->is('post')) {
+				if ($this->Auth->login()) {
+					$this->redirect($this->Auth->redirect());
+				} else {
+					$this->Flash->error(__('Invalid email or password, try again'));
+				}
 			}
+		} else {
+			return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 		}
 	}
 	public function logout() {
@@ -63,14 +67,18 @@ class UsersController extends AppController {
  * @return void
  */
 	public function add() {
-		if ($this->request->is('post')) {
-			$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$this->Flash->success(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'login'));
-			} else {
-				$this->Flash->error(__('The user could not be saved. Please, try again.'));
+		if (!$this->Session->read('Auth.User.id')) {
+			if ($this->request->is('post')) {
+				$this->User->create();
+				if ($this->User->save($this->request->data)) {
+					$this->Flash->success(__('The user has been saved.'));
+					return $this->redirect(array('action' => 'login'));
+				} else {
+					$this->Flash->error(__('The user could not be saved. Please, try again.'));
+				}
 			}
+		} else {
+			return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 		}
 	}
 

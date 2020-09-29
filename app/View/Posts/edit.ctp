@@ -8,3 +8,4 @@ echo $this->Form->input('message', array('rows' => '3'));
 echo $this->Form->input('id', array('type' => 'hidden'));
 echo $this->Form->end('Save Post');
 ?>
+<p><?php echo $this->Html->link('back', array('controller' => 'posts', 'action' => 'index')); ?></p>

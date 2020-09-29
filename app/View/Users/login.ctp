@@ -1,4 +1,4 @@
-<div class="users form">
+<div>
 <?php echo $this->Flash->render('auth'); ?>
 <?php echo $this->Form->create('User'); ?>
 <fieldset>
@@ -11,5 +11,6 @@ echo $this->Form->input('password');
 ?>
 </fieldset>
 <?php echo $this->Form->end(__('Login')); ?>
+<p><?php echo $this->Html->link(__('List Posts'), array('controller' => 'posts', 'action' => 'index')); ?> </p>
 <p><?php echo $this->Html->link(__('Sing up'), array('action' => 'add')); ?></p>
 </div>
