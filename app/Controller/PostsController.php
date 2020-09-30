@@ -44,7 +44,7 @@ class PostsController extends AppController {
 			$this->Post->id = $id;
 			if ($post_id === $id) {
 				if ($this->Post->save($this->request->data)) {
-					$this->Flash->success(__('Your post has been updated.' . $id));
+					$this->Flash->success(__('Your post has been updated.'));
 					return $this->redirect(array('action' => 'index'));
 				}
 				$this->Flash->error(__('Unable to update your post.'));
