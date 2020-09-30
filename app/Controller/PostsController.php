@@ -40,13 +40,18 @@ class PostsController extends AppController {
 			throw new NotFoundException(__('Invalid post'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+			$post_id = $this->request->data['Post']['id'];
 			$this->Post->id = $id;
-			$session_id = $this->Session->read('Auth.User.id');
-			if ($this->Post->save($this->request->data)) {
-				$this->Flash->success(__('Your post has been updated.'));
+			if ($post_id === $id) {
+				if ($this->Post->save($this->request->data)) {
+					$this->Flash->success(__('Your post has been updated.' . $id));
+					return $this->redirect(array('action' => 'index'));
+				}
+				$this->Flash->error(__('Unable to update your post.'));
+			} else {
+				$this->Flash->error(__('Unexpected error, Unable to update your post.'));
 				return $this->redirect(array('action' => 'index'));
 			}
-			$this->Flash->error(__('Unable to update your post.'));
 		}
 		if (!$this->request->data) {
 			$this->request->data = $post;
@@ -73,6 +78,8 @@ class PostsController extends AppController {
 			$postId = (int) $this->request->params['pass'][0];
 			if ($this->Post->isOwnedBy($postId, $user['id'])) {
 				return true;
+			} else {
+				return $this->redirect(array('action' => 'index'));
 			}
 		}
 		return parent::isAuthorized($user);
