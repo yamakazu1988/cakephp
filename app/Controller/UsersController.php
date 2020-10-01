@@ -19,6 +19,19 @@ class UsersController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->allow('add', 'logout');
 	}
+
+	public function isAuthorized($user) {
+		if ($this->action === 'view') {
+			return true;
+		}
+		if ($this->Auth->user('id') === $user['id']) {
+			if ($this->action === 'edit') {
+				return true;
+			}
+		}
+		return parent::isAuthorized($user);
+	}
+
 	public function login() {
 		if (!$this->Session->read('Auth.User.id')) {
 			if ($this->request->is('post')) {
@@ -104,6 +117,7 @@ class UsersController extends AppController {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
 		}
+		$this->set('user', $this->User->find('first', $options));
 	}
 
 /**

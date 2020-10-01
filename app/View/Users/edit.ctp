@@ -1,13 +1,17 @@
-<div class="users form">
-<?php echo $this->Form->create('User'); ?>
-<fieldset>
+<div>
+<?php echo $this->Form->create('User', array('enctype' => 'multipart/form-data')); ?>
 <legend><?php echo __('Edit User'); ?></legend>
-<?php
-echo $this->Form->input('id');
-echo $this->Form->input('username');
-echo $this->Form->input('email');
-echo $this->Form->input('password');
-?>
+<dl>
+<dt><?php echo __('Username'); ?></dt>
+<dd>
+<?php echo h($user['User']['username']); ?>
+&nbsp;
+</dd>
+</dl>
+<fieldset>
+<?php echo $this->Form->input('comment'); ?>
+<?php echo $this->Form->input('image_name', array('label' => 'image', 'accept' => 'image/png, image/jpeg', 'type' => 'file')); ?>
 </fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
+<p><?php echo $this->Html->link('back', array('controller' => 'users', 'action' => 'view', $user['User']['id'])); ?></p>
 </div>

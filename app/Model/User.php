@@ -44,6 +44,17 @@ class User extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'image_name' => array(
+			'rule1' => array(
+				'rule' => array('extension', array('jpg', 'jpeg', 'gif', 'png')),
+				'message' => 'Not an image.',
+				'allowEmpty' => true,
+			),
+			'rule2' => array(
+				'rule' => array('filesize', '<=', '500000'),
+				'message' => 'Image size should be 5MB or less.',
+			),
+		),
 	);
 
 	// The Associations below have been created with all possible keys, those that are not needed can be removed
