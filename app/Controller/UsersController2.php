@@ -106,50 +106,18 @@ class UsersController extends AppController {
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-		$this->set('user', $this->User->find('first', $options));
-		$user_id = $this->Session->read('Auth.User.id');
-		if ($id === $user_id) {
-			if ($this->request->is('submit') || $this->request->is('put')) {
-				$uniqid = uniqid(mt_rand(), true);
-				$tmp_name = $this->request->data['User']['image']['tmp_name'];
-				$image_name = $this->request->data['User']['image']['name'];
-				$comment = $this->request->data['User']['comment'];;
-				if (empty($comment)) {
-					$this->request->data['User']['comment'] = null;
-				}
-				$extension = preg_replace('/^.*\.([^.]{1,})$/','$1', $this->request->data['User']['image']['name']);
-				if ($image_name) {
-					$this->request->data['User']['image'] = $image_name;
-					if (!getimagesize($tmp_name)) {
-						$this->Flash->error(__('File Error.'));
-						return $this->redirect(array('action' => 'view', $id));
-					}
-					move_uploaded_file($tmp_name, '../webroot/img/' . $uniqid . '.' . $extension);
-					if ($this->request->data['User']['image_before']) {
-						$image_before = $this->request->data['User']['image_before'];
-						unlink('../webroot/img/' . $image_before);
-					}
-				} else {
-					$this->User->save($this->request->data, false, array('comment', 'id'));
-					$this->Flash->success(__('The user has been updated.'));
-					return $this->redirect(array('action' => 'view', $id));
-				}
-				$this->request->data['User']['image'] = $uniqid . '.' . $extension;
-				if ($this->User->save($this->request->data, array('validate' => false))) {
-					$this->Flash->success(__('The user has been updated.'));
-					return $this->redirect(array('action' => 'view', $id));
-				}
-				$this->Flash->error(__('The user could not be updated. Please try again'));
-				return $this->redirect(array('action' => 'view', $id));
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->User->save($this->request->data)) {
+				$this->Flash->success(__('The user has been saved.'));
+				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->request->data = $this->User->findById($id);
-				unset($this->request->data['User']['password']);
+				$this->Flash->error(__('The user could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->Flash->error(__('Only the person can edit.'));
-			return $this->redirect(array('controller' => 'posts', 'action' => 'index', $id));
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->request->data = $this->User->find('first', $options);
 		}
+		$this->set('user', $this->User->find('first', $options));
 	}
 
 /**

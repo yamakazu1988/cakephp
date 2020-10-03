@@ -8,8 +8,8 @@
 </dd>
 <dt><?php echo __('picture'); ?></dt>
 <dd>
-<?php if ($user['User']['image_name']): ?>
-<?php echo $this->Html->image($user['User']['image_name'], array('width'=>'200', 'height'=>'200')); ?>
+<?php if ($user['User']['image']): ?>
+<?php echo $this->Html->image($user['User']['image'], array('width'=>'200', 'height'=>'200')); ?>
 <?php else: ?>
 <?php echo '未登録'; ?>
 <?php endif; ?>
