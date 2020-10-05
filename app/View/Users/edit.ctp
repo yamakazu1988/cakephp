@@ -10,7 +10,7 @@
 </dl>
 <fieldset>
 <?php echo $this->Form->input('comment'); ?>
-<?php echo $this->Form->input('image', array('label' => 'image', 'accept' => 'image/png, image/jpeg', 'type' => 'file')); ?>
+<?php echo $this->Form->input('image', array('label' => 'image', 'accept' => 'image/png, image/jpeg, image/gif', 'type' => 'file')); ?>
 <?php echo $this->Form->input('image_before', array('type' => 'hidden', 'value' => $user['User']['image'])); ?>
 <?php echo $this->Form->input('id', array('type' => 'hidden')); ?>
 </fieldset>

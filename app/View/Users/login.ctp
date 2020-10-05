@@ -3,7 +3,7 @@
 <?php echo $this->Form->create('User'); ?>
 <fieldset>
 <legend>
-<?php echo __('Please enter your e email and password'); ?>
+<?php echo __('Please enter your email and password'); ?>
 </legend>
 <?php
 echo $this->Form->input('email');
@@ -13,4 +13,5 @@ echo $this->Form->input('password');
 <?php echo $this->Form->end(__('Login')); ?>
 <p><?php echo $this->Html->link(__('List Posts'), array('controller' => 'posts', 'action' => 'index')); ?> </p>
 <p><?php echo $this->Html->link(__('Sing up'), array('action' => 'add')); ?></p>
+<p><?php echo $this->Html->link(__('Change Password'), array('controller' => 'users', 'action' => 'change')); ?></p>
 </div>
